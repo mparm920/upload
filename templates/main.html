@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+    <title>Upload new File</title>
+    <head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" >
+        <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+        <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    </head>
+    <body>
+        <h1>Upload new File</h1>
+        <form id="uploadForm" action="" method=post enctype=multipart/form-data>
+           <input type=file name=file>
+           <br />
+           <input type=submit name=file value="upload">
+        </form>
+	<div id="progressbar"></div>
+	<!--<script>
+	    $( function() {
+		$( "#uploadForm" ).onSubmit(function() {
+		    console.log("upload clicked");
+		});
+		$.ajax({
+		    var xhr = new windowXMLHttpRequest();
+		    xhr.upload.addEventListener("progress", function(evt) { 
+			if (evt.lengthComputable) {
+			    $( "#progressbar" ).progressbar( {
+			        value: evt.loaded / evt.total;
+			    });
+			}
+		    }, false);
+		});
+	    });
+	</script>-->
+    </body>
+</html>
+
