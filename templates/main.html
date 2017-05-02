@@ -6,32 +6,35 @@
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" >
         <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
         <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="http://malsup.github.com/jquery.form.js"></script> 
     </head>
     <body>
         <h1>Upload new File</h1>
-        <form id="uploadForm" action="" method=post enctype=multipart/form-data>
+        <form id="uploadForm" action="" method="POST" enctype=multipart/form-data>
            <input type=file name=file>
            <br />
            <input type=submit name=file value="upload">
         </form>
 	<div id="progressbar"></div>
-	<!--<script>
-	    $( function() {
-		$( "#uploadForm" ).onSubmit(function() {
-		    console.log("upload clicked");
+	<script>
+	    $( "#uploadForm" ).submit( function() {
+		$(this).ajaxSubmit({ 
+		    beforeSend: function() {
+			$( "#progressbar" ).progressbar({ value: false });
+			console.log("starting submit");
+		    },
+		    uploadProgress: function(event, position, total, percentComplete) {
+			$( "#progressbar" ).progressbar({ value: percentComplete });
+			console.log(percentComplete);
+		    },
+		    success: function(responseText, statusText, xhr, formelement) {
+			$( "#progressbar" ).progressbar({ value: 100 });
+			console.log("success");
+		    }
 		});
-		$.ajax({
-		    var xhr = new windowXMLHttpRequest();
-		    xhr.upload.addEventListener("progress", function(evt) { 
-			if (evt.lengthComputable) {
-			    $( "#progressbar" ).progressbar( {
-			        value: evt.loaded / evt.total;
-			    });
-			}
-		    }, false);
-		});
+		return false;
 	    });
-	</script>-->
+	</script>
     </body>
 </html>
 
