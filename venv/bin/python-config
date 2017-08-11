@@ -1,4 +1,4 @@
-#!/home/mparm920/Code/upload/venv/bin/python
+#!/Users/mparm920/Code/upload/venv/bin/python
 
 import sys
 import getopt

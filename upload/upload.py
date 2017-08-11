@@ -1,15 +1,28 @@
-#!/usr/bin/python3
+                             #!/usr/bin/python3
 import os
-from flask import Flask, request, redirect, url_for, render_template, flash
+from flask import Flask, request, redirect, url_for, render_template, flash, session
 from werkzeug.utils import secure_filename
+from functools import wraps
 
-UPLOAD_FOLDER = '/opt/data'
+#UPLOAD_FOLDER = '/opt/data'
+UPLOAD_FOLDER = '/Users/mparm920/Code/upload/files/'
 
 app = Flask(__name__)
 app.secret_key = 'eflex upload page'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+def login_required(f):
+    @wraps(f)
+    def wrap(*args, **kargs):
+        if 'logged_in' in session:
+            return f(*args, **kargs)
+        else:
+            flash("You need to login!!!")
+            return redirect(url_for("login"))
+    return wrap
+
 @app.route('/', methods=['GET', 'POST'])
+@login_required
 def upload_file():
     if request.method == 'POST':
         print(request.files)
@@ -24,8 +37,25 @@ def upload_file():
             print(file.filename)
             filename = secure_filename(file.filename) 
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('upload_file', filename=filename))
+            return redirect(url_for('upload_file', filename=""))
     return render_template("main.html")
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username'] 
+        password = request.form['password']
+        if password == 'admin' and username == 'admin':
+            session['logged_in'] = True
+            return redirect(url_for('upload_file'))
+        return redirect(url_for('login'))
+    return render_template("login.html")
+
+@app.route('/logout')
+def login_out():
+    session.pop('logged_in', None)
+    flash('You are logged out')
+    return redirect(url_for('login'))
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=80)
+    app.run(debug=True)
