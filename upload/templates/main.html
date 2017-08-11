@@ -12,21 +12,21 @@
 	<div id="progressbar"></div>
 	<script>
 	    $( "#uploadForm" ).submit( function() {
-		$(this).ajaxSubmit({
-		    beforeSend: function() {
-			$( "#progressbar" ).progressbar({ value: false });
-			console.log("starting submit");
-		    },
-		    uploadProgress: function(event, position, total, percentComplete) {
-			$( "#progressbar" ).progressbar({ value: percentComplete });
-			console.log(percentComplete);
-		    },
-		    success: function(responseText, statusText, xhr, formelement) {
-			$( "#progressbar" ).progressbar({ value: 100 });
-			console.log("success");
-		    }
-		});
-		return false;
+		    $(this).ajaxSubmit({
+		        beforeSend: function() {
+			        $( "#progressbar" ).progressbar({ value: false });
+			        console.log("starting submit");
+		        },
+                uploadProgress: function(event, position, total, percentComplete) {
+                    $( "#progressbar" ).progressbar({ value: percentComplete });
+                    console.log(percentComplete);
+                },
+                success: function(responseText, statusText, xhr, formelement) {
+                    $( "#progressbar" ).progressbar({ value: 100 });
+                    console.log("success");
+                }
+            });
+		    return false;
 	    });
 	</script>
 {% endblock %}
