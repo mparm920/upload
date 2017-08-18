@@ -12,13 +12,15 @@
         <title>Upload new File</title>
     </head>
     <body>
-        <h1>Upload new File</h1>
+        <div class="container">
+            <h1>Upload new File</h1>
 
-        {% block content %}
-        {% endblock %}
+            {% block content %}
+            {% endblock %}
 
-        {% for message in get_flashed_messages() %}
-            {{ message }}
-        {% endfor %}
+            {% for message in get_flashed_messages() %}
+                {{ message }}
+            {% endfor %}
+        </div>
     </body>
 </html>
