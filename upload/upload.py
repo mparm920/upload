@@ -3,6 +3,7 @@ import os
 from flask import Flask, request, redirect, url_for, render_template, flash, session
 from werkzeug.utils import secure_filename
 from functools import wraps
+from flask.ext.sqlalchemy import SQLAlchemy
 
 #UPLOAD_FOLDER = '/opt/data'
 UPLOAD_FOLDER = '/Users/mparm920/Code/upload/files/'
@@ -10,6 +11,9 @@ UPLOAD_FOLDER = '/Users/mparm920/Code/upload/files/'
 app = Flask(__name__)
 app.secret_key = 'eflex upload page'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///upload.db' 
+
+db = SQLAlchemy(app)
 
 def login_required(f):
     @wraps(f)
