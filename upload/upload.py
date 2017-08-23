@@ -3,7 +3,7 @@ import os
 from flask import Flask, request, redirect, url_for, render_template, flash, session
 from werkzeug.utils import secure_filename
 from functools import wraps
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 
 #UPLOAD_FOLDER = '/opt/data'
 UPLOAD_FOLDER = '/Users/mparm920/Code/upload/files/'
