@@ -4,6 +4,7 @@ from flask import Flask, request, redirect, url_for, render_template, flash, ses
 from werkzeug.utils import secure_filename
 from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 #UPLOAD_FOLDER = '/opt/data'
 UPLOAD_FOLDER = '/Users/mparm920/Code/upload/files/'
@@ -55,6 +56,8 @@ def login():
         if user:
             if password == user.password:
                 session['logged_in'] = True
+                user.accessDate = datetime.today()
+                db.session.commit()
                 return redirect(url_for('upload_file'))
             else:
                 flash("Incorrect password")
