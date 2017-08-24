@@ -51,9 +51,15 @@ def login():
     if request.method == 'POST':
         username = request.form['username'] 
         password = request.form['password']
-        if password == 'admin' and username == 'admin':
-            session['logged_in'] = True
-            return redirect(url_for('upload_file'))
+        user = Users.query.filter_by(email=username).first()
+        if user:
+            if password == user.password:
+                session['logged_in'] = True
+                return redirect(url_for('upload_file'))
+            else:
+                flash("Incorrect password")
+        else:
+            flash("Username doesn't exist")
         return redirect(url_for('login'))
     return render_template("login.html")
 
