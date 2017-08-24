@@ -20,7 +20,7 @@ class UploadTest(unittest.TestCase):
 
     def test_login_redirect(self):
         self.tester = app.test_client(self)
-        res = self.tester.post('/login', data=dict(username='admin', password='admin'), follow_redirects=True)
+        res = self.tester.post('/login', data=dict(username='mparm920@gmail.com', password='mark'), follow_redirects=True)
         self.assertEqual(res.status_code, 200)
         self.assertIn(b'id="uploadForm"', res.data)
 
