@@ -1,4 +1,4 @@
-from upload.upload import app
+from upload import app
 import unittest
 
 class UploadTest(unittest.TestCase):
