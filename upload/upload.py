@@ -11,9 +11,11 @@ UPLOAD_FOLDER = '/Users/mparm920/Code/upload/files/'
 app = Flask(__name__)
 app.secret_key = 'eflex upload page'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///upload.db' 
 
 db = SQLAlchemy(app)
+from models import *
 
 def login_required(f):
     @wraps(f)
