@@ -6,14 +6,10 @@ from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
-#UPLOAD_FOLDER = '/opt/data'
-UPLOAD_FOLDER = '/Users/mparm920/Code/upload/files/'
-
 app = Flask(__name__)
-app.secret_key = 'eflex upload page'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///upload.db' 
+
+#config
+app.config.from_object('config.BaseConfig')
 
 db = SQLAlchemy(app)
 from models import *
@@ -73,4 +69,4 @@ def login_out():
     return redirect(url_for('login'))
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
