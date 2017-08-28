@@ -9,7 +9,7 @@ from datetime import datetime
 app = Flask(__name__)
 
 #config
-app.config.from_object('config.BaseConfig')
+app.config.from_object(os.environ['APP_SETTINGS'])
 
 db = SQLAlchemy(app)
 from models import *
