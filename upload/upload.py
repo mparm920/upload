@@ -1,11 +1,12 @@
                              #!/usr/bin/python3
 import os
-from flask import Flask, request, redirect, url_for, render_template, flash, session
+from flask import Flask, request, redirect, url_for, render_template, flash
 from werkzeug.utils import secure_filename
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, logout_user, login_required
 from datetime import datetime
+from forms import LoginForm
 
 app = Flask(__name__)
 
@@ -47,22 +48,25 @@ def upload_file():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    error = None
+    loginForm = LoginForm(request.form)
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        user = Users.query.filter_by(email=username).first()
-        if user:
-            if bcrypt.check_password_hash(user.password, password):
-                load_user(user.id)
-                user.accessDate = datetime.today()
-                db.session.commit()
-                return redirect(url_for('upload_file'))
+        if loginForm.validate_on_submit():
+            email = request.form['email']
+            password = request.form['password']
+            user = Users.query.filter_by(email=email).first()
+            if user:
+                if bcrypt.check_password_hash(user.password, password):
+                    load_user(user.id)
+                    user.accessDate = datetime.today()
+                    db.session.commit()
+                    return redirect(url_for('upload_file'))
+                else:
+                    error = "Incorrect password"
             else:
-                flash("Incorrect password")
-        else:
-            flash("Username doesn't exist")
-        return redirect(url_for('login'))
-    return render_template("login.html")
+                error = "Username doesn't exist"
+            return redirect(url_for('login'))
+    return render_template("login.html", form=loginForm, error=error)
 
 @app.route('/logout')
 @login_required
