@@ -4,13 +4,14 @@ from flask import Flask, request, redirect, url_for, render_template, flash, ses
 from werkzeug.utils import secure_filename
 from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
 from datetime import datetime
 
 app = Flask(__name__)
 
 #config
 app.config.from_object(os.environ['APP_SETTINGS'])
-
+bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
 from models import *
 
@@ -50,7 +51,7 @@ def login():
         password = request.form['password']
         user = Users.query.filter_by(email=username).first()
         if user:
-            if password == user.password:
+            if bcrypt.check_password_hash(user.password, password):
                 session['logged_in'] = True
                 user.accessDate = datetime.today()
                 db.session.commit()
