@@ -1,9 +1,10 @@
 from flask_sqlalchemy import SQLAlchemy
 from upload import db, bcrypt
 from datetime import datetime
+from flask_login import UserMixin
 import uuid
 
-class Users(db.Model):
+class Users(db.Model, UserMixin):
 
     __tablename__ = "Users"
 

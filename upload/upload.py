@@ -2,9 +2,9 @@
 import os
 from flask import Flask, request, redirect, url_for, render_template, flash, session
 from werkzeug.utils import secure_filename
-from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
+from flask_login import LoginManager, login_user, logout_user, login_required
 from datetime import datetime
 
 app = Flask(__name__)
@@ -13,17 +13,18 @@ app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
 bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
 from models import *
 
-def login_required(f):
-    @wraps(f)
-    def wrap(*args, **kargs):
-        if 'logged_in' in session:
-            return f(*args, **kargs)
-        else:
-            flash("You need to login!!!")
-            return redirect(url_for("login"))
-    return wrap
+
+@login_manager.user_loader
+def load_user(user_id):
+    return Users.query.filter_by(id=user_id).first()
+
+@login_manager.unauthorized_handler
+def unauthorized():
+    return redirect(url_for('login'))
 
 @app.route('/', methods=['GET', 'POST'])
 @login_required
@@ -47,12 +48,12 @@ def upload_file():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username'] 
+        username = request.form['username']
         password = request.form['password']
         user = Users.query.filter_by(email=username).first()
         if user:
             if bcrypt.check_password_hash(user.password, password):
-                session['logged_in'] = True
+                load_user(user.id)
                 user.accessDate = datetime.today()
                 db.session.commit()
                 return redirect(url_for('upload_file'))
@@ -64,8 +65,9 @@ def login():
     return render_template("login.html")
 
 @app.route('/logout')
+@login_required
 def login_out():
-    session.pop('logged_in', None)
+    logout_user()
     flash('You are logged out')
     return redirect(url_for('login'))
 
