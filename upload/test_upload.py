@@ -4,7 +4,7 @@ import unittest
 class UploadTest(unittest.TestCase):
 
     def setup(self):
-        app.config["SECRET_KEY"] = 'eflex upload page'
+        pass
 
     def test_Cant_access_root_endpoint(self):
         self.tester = app.test_client(self)
