@@ -20,8 +20,12 @@ from models import *
 
 
 @login_manager.user_loader
-def load_user(user_id):
-    return Users.query.filter_by(id=user_id).first()
+def load_user(user):
+    try:
+        return Users.query.filter_by(id=user).first()
+    except AttributeError:
+        return None
+
 
 @login_manager.unauthorized_handler
 def unauthorized():
@@ -57,7 +61,7 @@ def login():
             user = Users.query.filter_by(email=email).first()
             if user:
                 if bcrypt.check_password_hash(user.password, password):
-                    load_user(user.id)
+                    login_user(user)
                     user.accessDate = datetime.today()
                     db.session.commit()
                     return redirect(url_for('upload_file'))
