@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+
+<form >
+    {{ form.email(placeholder='eMail') }}
+    {{ form.password(placeholder='Password') }}
+    {{ form.confimPassword(placeholder='Confirm Password') }}
+
+    <input type='submit' value="Register" />
+</form>
+
+{% endblock %}

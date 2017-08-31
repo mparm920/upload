@@ -6,6 +6,7 @@
 
     <label>Login</label>
     <div class="form-group" >
+        {{ form.csrf }}
         {{ form.email(placeholder="eMail") }}
         <span>
             {% if form.email.errors %}
