@@ -3,37 +3,36 @@
 
 <form method="POST" action="" class="form-Horizontal">
     {{ form.csrf_token }}
+
     <label>Login</label>
     <div class="form-group" >
         {{ form.email(placeholder="eMail") }}
-        <!--<label class="control-label" for="username">Username:</label>
-        <input type="text" name="username" class="form-control" placeholder="Enter Username"/>-->
         <span>
-            {% if form.password.errors %}
-                {% for error in form.passwords.errors %}
-                    {{ error }}
+            {% if form.email.errors %}
+                {% for error in form.email.errors %}
+                    <p style="color:red;">{{ error }}</p>
                 {% endfor %}
             {% endif %}
         </span>
     </div>
     <div class="form-group" >
         {{ form.password(placeholder="Password") }}
-        <!--<label class="control-label" for="password">Password:</label>
-        <input type="password" name="password" class="form-control" placeholder="Enter Password" />-->
     </div>
     <span>
         {% if form.password.errors %}
-            {% for error in form.passwords.errors %}
-                {{ error }}
+            {% for error in form.password.errors %}
+                <p style="color:red;">{{ error }}</p>
             {% endfor %}
         {% endif %}
     </span>
-    {% if error %}
-        <p>{{ error }}</p>
-    {% endif %}
     <div class="form-group" >
         <input type="submit" class="btn btn-default" value="Login"/>
     </div>
 </form>
-
+{% if error %}
+    <p style="color: red">{{ error }}</p>
+{% endif %}
+<div class="row">
+    <a href="upload.parmserv.com/register">Register</a>
+</div>
 {% endblock %}

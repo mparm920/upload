@@ -69,7 +69,7 @@ def login():
                     error = "Incorrect password"
             else:
                 error = "Username doesn't exist"
-            return redirect(url_for('login'))
+            #return redirect(url_for('login'))
     return render_template("login.html", form=loginForm, error=error)
 
 @app.route('/logout')
