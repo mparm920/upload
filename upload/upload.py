@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, logout_user, login_required
 from datetime import datetime
-from forms import LoginForm
+from forms import LoginForm, RegisterForm
 
 app = Flask(__name__)
 
@@ -78,6 +78,11 @@ def login_out():
     logout_user()
     flash('You are logged out')
     return redirect(url_for('login'))
+
+@app.route('/register', methods=['GET', 'POST'])
+def register_user():
+    registerForm = RegisterForm(request.form)
+    return render_template('register.html', form=registerForm)
 
 if __name__ == "__main__":
     app.run()
