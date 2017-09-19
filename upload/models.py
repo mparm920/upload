@@ -13,6 +13,8 @@ class Users(db.Model, UserMixin):
     password = db.Column(db.String)
     creationDate = db.Column(db.DateTime)
     accessDate = db.Column(db.DateTime)
+    companies_id = db.Column(db.Integer, ForeignKey("companies.id"))
+
 
     def __init__(self, email, password):
         self.email = email
@@ -25,6 +27,7 @@ class Companies(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     companyName = db.Column(db.String)
+    companies = db.relationship()
 
     def __init__(self, companyName):
         self.companyName = companyName
