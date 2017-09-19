@@ -19,3 +19,12 @@ class Users(db.Model, UserMixin):
         self.password = bcrypt.generate_password_hash(password).decode('utf-8')
         self.creationDate = datetime.today()
         self.accessDate = datetime.today()
+
+class Companies(db.Model):
+    __tablename__="Companies"
+
+    id = db.Column(db.Integer, primary_key=True)
+    companyName = db.Column(db.String)
+
+    def __init__(self, companyName):
+        self.companyName = companyName

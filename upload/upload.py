@@ -82,7 +82,8 @@ def login_out():
 @app.route('/register', methods=['GET', 'POST'])
 def register_user():
     registerForm = RegisterForm(request.form)
-    return render_template('register.html', form=registerForm)
+    companies = Companies.query.all()
+    return render_template('register.html', form=registerForm, companies=companies)
 
 if __name__ == "__main__":
     app.run()
