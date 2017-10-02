@@ -4,6 +4,16 @@ from datetime import datetime
 from flask_login import UserMixin
 import uuid
 
+class Companies(db.Model):
+    __tablename__="Companies"
+
+    id = db.Column(db.Integer, primary_key=True)
+    companyName = db.Column(db.String)
+    user_id = db.relationship("Users", backref="Companies")
+
+    def __init__(self, companyName):
+        self.companyName = companyName
+
 class Users(db.Model, UserMixin):
 
     __tablename__ = "Users"
@@ -13,21 +23,12 @@ class Users(db.Model, UserMixin):
     password = db.Column(db.String)
     creationDate = db.Column(db.DateTime)
     accessDate = db.Column(db.DateTime)
-    companies_id = db.Column(db.Integer, ForeignKey("companies.id"))
+    companyName = db.Column(db.Integer, db.ForeignKey("Companies.id"))
 
 
-    def __init__(self, email, password):
+    def __init__(self, email, password, companyName):
         self.email = email
         self.password = bcrypt.generate_password_hash(password).decode('utf-8')
         self.creationDate = datetime.today()
         self.accessDate = datetime.today()
-
-class Companies(db.Model):
-    __tablename__="Companies"
-
-    id = db.Column(db.Integer, primary_key=True)
-    companyName = db.Column(db.String)
-    companies = db.relationship()
-
-    def __init__(self, companyName):
-        self.companyName = companyName
+        self.companyName = Companies.query.filter_by(companyName=companyName).first().id
