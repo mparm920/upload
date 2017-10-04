@@ -1,13 +1,13 @@
 from flask import Blueprint, request, redirect, url_for, render_template, flash
-from project.models import Users
-from project.app import app, login_manager, bcrypt, db
 from .forms import LoginForm
 from flask_login import login_user, logout_user, login_required
 from datetime import datetime
+from project.models import Users
+from project import app, login_manager, bcrypt, db
 
 login_blueprint = Blueprint(
     'login', __name__,
-    templates_folder='templates'
+    template_folder='templates'
 )
 
 @login_manager.user_loader
@@ -20,7 +20,7 @@ def load_user(user):
 
 @login_manager.unauthorized_handler
 def unauthorized():
-    return redirect(url_for('login'))
+    return redirect(url_for('login.login'))
 
 @login_blueprint.route('/login', methods=['GET', 'POST'])
 def login():

@@ -1,6 +1,6 @@
 from .forms import RegisterForm
 from flask import Blueprint, render_template, request
-from app import app
+from project import app
 from project.models import Companies
 
 user_blueprint = Blueprint(

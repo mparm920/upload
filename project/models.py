@@ -1,8 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
-from upload import db, bcrypt
 from datetime import datetime
 from flask_login import UserMixin
 import uuid
+from project import db, bcrypt
 
 class Companies(db.Model):
     __tablename__="Companies"

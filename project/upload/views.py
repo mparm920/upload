@@ -2,11 +2,11 @@ import os
 from werkzeug.utils import secure_filename
 from flask import Blueprint, request, redirect, url_for, render_template
 from flask_login import login_required
-from app import app
+from project import app
 
 upload_blueprint = Blueprint(
     'upload', __name__,
-    templates_folder='templates'
+    template_folder='templates'
 )
 
 @upload_blueprint.route('/', methods=['GET', 'POST'])
