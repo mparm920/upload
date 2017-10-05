@@ -1,6 +1,6 @@
-from upload import db
+from project import db
 import datetime
-from models import Users, Companies
+from project.models import Users, Companies
 
 db.session.add(Companies("Hirata"))
 db.session.add(Companies("Hanwha"))

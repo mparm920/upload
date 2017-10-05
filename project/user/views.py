@@ -10,6 +10,9 @@ user_blueprint = Blueprint(
 
 @user_blueprint.route('/register', methods=['GET', 'POST'])
 def register_user():
-    registerForm = RegisterForm(request.form)
-    companies = Companies.query.all()
-    return render_template('register.html', form=registerForm, companies=companies)
+    if request.method == 'POST':
+        pass
+    else:
+        registerForm = RegisterForm(request.form)
+        companies = Companies.query.all()
+        return render_template('register.html', form=registerForm, companies=companies)
