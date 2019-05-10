@@ -26,9 +26,9 @@ class Users(db.Model, UserMixin):
     companyName = db.Column(db.Integer, db.ForeignKey("Companies.id"))
 
 
-    def __init__(self, email, password, companyName):
+    def __init__(self, email, password, companyId):
         self.email = email
         self.password = bcrypt.generate_password_hash(password).decode('utf-8')
         self.creationDate = datetime.today()
         self.accessDate = datetime.today()
-        self.companyName = Companies.query.filter_by(companyName=companyName).first().id
+        self.companyName = companyId
