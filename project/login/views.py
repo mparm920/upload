@@ -36,11 +36,11 @@ def login():
                     login_user(user)
                     user.accessDate = datetime.today()
                     db.session.commit()
-                    return redirect(url_for('upload_file'))
+                    return redirect(url_for('upload.upload_file'))
                 else:
-                    error = "Incorrect password"
+                    loginForm.password.errors.append("Incorrect password")
             else:
-                error = "Username doesn't exist"
+                loginForm.email.errors.append("Email doesn't exist")
             #return redirect(url_for('login'))
     return render_template("login.html", form=loginForm, error=error)
 
